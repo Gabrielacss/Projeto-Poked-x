@@ -1,0 +1,156 @@
+.sprits{
+    display: flex;
+}
+#resultado{
+    padding: 20px;
+    display: flexbox;
+    justify-content: space-around;
+}
+.fundo-card{
+    background-color: aliceblue;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+}
+/* img{
+    border: solid 10px white;
+} */
+.subtitles{
+    font-weight: bolder;
+}
+.tiposPokemon{
+    display: flex;
+    align-items: center;
+}
+.typeImage{
+    margin-right: 3px;
+}
+.type_specie{
+    font-weight: bolder;
+}
+.type{
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+
+
+
+.fundo-card {
+/* display: flex;
+align-items: center;
+justify-content: center; */
+position: relative;
+/* margin: 20px auto; */
+width: 380px; 
+height: 380px;
+background: white;
+border-radius: 50px;
+font-family: 'Montserrat', sans-serif;
+font-size: 15px;
+font-weight: lighter;
+letter-spacing: 2px;
+transition: 1s box-shadow;
+}
+
+.fundo-card:hover {
+box-shadow: 0 5px 35px 0px rgba(0,0,0,.1);
+}
+
+.fundo-card:hover::before, .fundo-card:hover::after {
+display: block;
+content: '';
+position: absolute;
+width: 380px;
+height: 380px;
+background: #FDA8CF;
+border-radius: 50px;
+z-index: -1;
+animation: 1s clockwise infinite;
+}
+
+.fundo-card:hover:after {
+background: #F3CE5E;
+animation: 2s counterclockwise infinite;
+}
+
+@keyframes clockwise {
+0% {
+top: -5px;
+left: 0;
+}
+12% {
+top: -2px;
+left: 2px;
+}
+25% {
+top: 0;
+left: 5px;    
+}
+37% {
+top: 2px;
+left: 2px;
+}
+50% {
+top: 5px;
+left: 0;    
+}
+62% {
+top: 2px;
+left: -2px;
+}
+75% {
+top: 0;
+left: -5px;
+}
+87% {
+top: -2px;
+left: -2px;
+}
+100% {
+top: -5px;
+left: 0;    
+}
+}
+
+@keyframes counterclockwise {
+0% {
+top: -5px;
+right: 0;
+}
+12% {
+top: -2px;
+right: 2px;
+}
+25% {
+top: 0;
+right: 5px;    
+}
+37% {
+top: 2px;
+right: 2px;
+}
+50% {
+top: 5px;
+right: 0;    
+}
+62% {
+top: 2px;
+right: -2px;
+}
+75% {
+top: 0;
+right: -5px;
+}
+87% {
+top: -2px;
+right: -2px;
+}
+100% {
+top: -5px;
+right: 0;    
+}
+}

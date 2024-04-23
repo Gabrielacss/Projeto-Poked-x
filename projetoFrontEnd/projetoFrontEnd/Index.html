@@ -1,0 +1,536 @@
+<script src="JS/vue.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="image/favicon-32x32.png">
+</head>
+<body style="background-color: #DCDCDC;">
+    <div>
+        <div>
+            <h1 style="text-align: center;">Pokédex</h1>
+        </div>
+
+        <div id="app" class="col-lg-12" style="margin-bottom: 50px;">
+            <div style="display: flex; justify-content: center;">
+                <div class="input-group-btn col-lg-4" style="display: flex; margin-right: 40px;">
+                    <div class="" style="margin-right: 15px;">
+                        <button id="btnFiltro" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <span id="text_search">Nome</span>
+                        </button> 
+                        <ul class="dropdown-menu" id="drop"> 
+                            <li> 
+                                <a class="dropdown-item" href="#" onclick="filtro('Nome');">Nome</a> 
+                            </li> 
+                            <li> 
+                                <a class="dropdown-item" href="#" onclick="filtro('ID');">ID</a> 
+                            </li>
+                            <li> 
+                                <a class="dropdown-item" href="#" onclick="filtro('Tipo');">Tipo</a> 
+                            </li> 
+                            <li> 
+                                <a class="dropdown-item" href="#" onclick="filtro('Especie');">Espécie</a> 
+                            </li> 
+                            <li> 
+                                <a class="dropdown-item" href="#" onclick="TodosOsPokemons();">Todos</a> 
+                            </li> 
+                        </ul> 
+                    </div>
+                    <input id="campoPesquisa" type="text" class="form-control" aria-label="Text input with 2 dropdown buttons" placeholder="Nome do Pokémon"> 
+                </div>
+                <div class="">
+                    <button class="btn btn-primary " onclick="pesquisar();">Pesquisar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center card-type">
+            <h1><span class="type"><span class="type_specie"></span><span id="typeSpecie"></span></span></h1>
+        </div>
+        
+        <div id="resultado" class="row col-lg-12">
+        </div>
+    </div>
+</body>
+
+<!-- Modal -->
+<div class="modal fade modal-xl" id="ModalPokemon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Pokémon - <span id="modalLabel"></span> </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Tabs navs -->
+            <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+                <li class="nav-item" role="presentation" onclick="activateTab(this)">
+                <a
+                    data-mdb-tab-init
+                    class="nav-link active"
+                    id="ex1-tab-1"
+                    href="#ex1-tabs-1"
+                    role="tab"
+                    aria-controls="ex1-tabs-1"
+                    aria-selected="true"
+                    >Habilidades</a
+                >
+                </li>
+                <li class="nav-item" role="presentation"  onclick="activateTab(this)">
+                <a
+                    data-mdb-tab-init
+                    class="nav-link"
+                    id="ex1-tab-2"
+                    href="#ex1-tabs-2"
+                    role="tab"
+                    aria-controls="ex1-tabs-2"
+                    aria-selected="false"
+                    >Sprites</a
+                >
+                </li>
+                <li class="nav-item" role="presentation"  onclick="activateTab(this)">
+                <a
+                    data-mdb-tab-init
+                    class="nav-link"
+                    id="ex1-tab-3"
+                    href="#ex1-tabs-3"
+                    role="tab"
+                    aria-controls="ex1-tabs-3"
+                    aria-selected="false"
+                    >Evoluções</a
+                >
+                </li>
+                <li class="nav-item" role="presentation"  onclick="activateTab(this)">
+                    <a
+                        data-mdb-tab-init
+                        class="nav-link"
+                        id="ex1-tab-4"
+                        href="#ex1-tabs-4"
+                        role="tab"
+                        aria-controls="ex1-tabs-4"
+                        aria-selected="false"
+                        >Games</a
+                    >
+                    </li>
+            </ul>
+        <!-- Tabs navs -->
+
+        <div class="tab-content" id="ex1-content">
+            <div class="tab-pane fade show active" id="ex1-tabs-1" role="tabpanel" aria-labelledby="ex1-tab-1">
+                Tab 1 content
+            </div>
+            <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+                Tab 2 content
+            </div>
+            <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-3">
+                Tab 3 content
+            </div>
+            <div class="tab-pane fade" id="ex1-tabs-4" role="tabpanel" aria-labelledby="ex1-tab-4">
+                Tab 4 content
+            </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<style>
+    #resultado{
+        padding: 20px;
+        display: flexbox;
+        justify-content: space-around;
+    }
+    .fundo-card{
+        background-color: aliceblue;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 15px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        cursor: pointer;
+    }
+    /* img{
+        border: solid 10px white;
+    } */
+    .subtitles{
+        font-weight: bolder;
+    }
+    .tiposPokemon{
+        display: flex;
+        align-items: center;
+    }
+    .typeImage{
+        margin-right: 3px;
+    }
+    .type_specie{
+        font-weight: bolder;
+    }
+    .type{
+        background-color: white;
+        padding: 15px;
+        border-radius: 10px;
+    }
+    
+
+    
+
+    .fundo-card {
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  position: relative;
+  /* margin: 20px auto; */
+  width: 380px; 
+  height: 380px;
+  background: white;
+  border-radius: 50px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  font-weight: lighter;
+  letter-spacing: 2px;
+  transition: 1s box-shadow;
+}
+
+.fundo-card:hover {
+  box-shadow: 0 5px 35px 0px rgba(0,0,0,.1);
+}
+
+.fundo-card:hover::before, .fundo-card:hover::after {
+  display: block;
+  content: '';
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  background: #FDA8CF;
+  border-radius: 50px;
+  z-index: -1;
+  animation: 1s clockwise infinite;
+}
+
+.fundo-card:hover:after {
+  background: #F3CE5E;
+  animation: 2s counterclockwise infinite;
+}
+
+@keyframes clockwise {
+  0% {
+    top: -5px;
+    left: 0;
+  }
+  12% {
+    top: -2px;
+    left: 2px;
+  }
+  25% {
+    top: 0;
+    left: 5px;    
+  }
+  37% {
+    top: 2px;
+    left: 2px;
+  }
+  50% {
+    top: 5px;
+    left: 0;    
+  }
+  62% {
+    top: 2px;
+    left: -2px;
+  }
+  75% {
+    top: 0;
+    left: -5px;
+  }
+  87% {
+    top: -2px;
+    left: -2px;
+  }
+  100% {
+    top: -5px;
+    left: 0;    
+  }
+}
+
+@keyframes counterclockwise {
+  0% {
+    top: -5px;
+    right: 0;
+  }
+  12% {
+    top: -2px;
+    right: 2px;
+  }
+  25% {
+    top: 0;
+    right: 5px;    
+  }
+  37% {
+    top: 2px;
+    right: 2px;
+  }
+  50% {
+    top: 5px;
+    right: 0;    
+  }
+  62% {
+    top: 2px;
+    right: -2px;
+  }
+  75% {
+    top: 0;
+    right: -5px;
+  }
+  87% {
+    top: -2px;
+    right: -2px;
+  }
+  100% {
+    top: -5px;
+    right: 0;    
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+</style>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        TodosOsPokemons();
+    });
+    
+    function activateTab(tab_Selecionada){
+        //Inicio da TAB
+        let classesTAB = document.getElementsByClassName("nav-link");
+        for (let index = 0; index < classesTAB.length; index++) {
+            classesTAB[index].classList.remove("active");
+            classesTAB[index].ariaSelected = "false";
+        }
+
+        let id_tab_selecionada = document.getElementById(tab_Selecionada.children[0].id);
+        id_tab_selecionada.ariaSelected = "true";
+        id_tab_selecionada.classList.add("active");
+        //Termino da TAB
+
+        //Inicio do Conteudo da TAB
+        let classesConteudoTAB = document.getElementsByClassName("tab-pane");
+        for (let index = 0; index < classesConteudoTAB.length; index++) {
+            classesConteudoTAB[index].classList.remove("show");
+            classesConteudoTAB[index].classList.remove("active");
+        }
+
+        let conteudosDaTab = document.querySelector("#ex1-content");
+
+        for (let index = 0; index < conteudosDaTab.children.length; index++) {
+            var ID_Conteudo_TAB = conteudosDaTab.children[index].getAttribute("aria-labelledby");
+            if(ID_Conteudo_TAB == tab_Selecionada.children[0].id){
+                conteudosDaTab.children[index].classList.add("show");
+                conteudosDaTab.children[index].classList.add("active");
+                
+            };
+        }
+
+        //Termino do Conteudo da TAB
+    }
+
+    function filtro(filtro){
+        if (filtro === "Nome") {
+            $('#campoPesquisa').attr('placeholder', 'Nome do Pokémon');
+            // $("#campoPesquisa").on('keyup.somenteLetra', function () {
+            //     this.value = this.value.replace(/[0-9]*/g, '');
+            // });
+            $("#parametroConsulta").attr("maxlength", 45);
+        }else if (filtro === "ID") {
+            $('#campoPesquisa').attr('placeholder', 'ID do Pokémon');
+            // $("#campoPesquisa").on('keyup.somenteLetra', function () {
+            //     this.value = this.value.replace(/[a-zA-Z]*/g, '');
+            // });
+        } else if (filtro === "Tipo") {
+            $('#campoPesquisa').attr('placeholder', 'Tipo do Pokémon');
+        } else if (filtro === "Especie") {
+            $('#campoPesquisa').attr('placeholder', 'Especie do Pokémon');
+        } 
+        // else if(filtro === "Todos"){
+        //     $('#text_search').text(filtro);
+        //     pesquisar();
+        // }
+
+        $('#text_search').text(filtro);
+    }
+
+    function TodosOsPokemons(){
+        const div = document.getElementById("resultado");
+        let imagensElementosPokemon = "";
+        div.innerHTML = "";
+        $(".card-type").hide();
+
+        $.ajax({
+          "url": "https://pokeapi.co/api/v2/pokemon/?limit=12",
+          "method": "GET",
+          success: function(data) {
+            for (let index = 0; index < data.results.length; index++) {
+                $.ajax({
+                    "url": data.results[index].url,
+                    "method": "GET",
+                    success:function(data) {
+                        let imagensElementosPokemon = "";
+                        for (let index = 0; index < data.types.length; index++) {
+                            let nomeElementoPokemon = data.types[index].type.name;
+                            imagensElementosPokemon += "<div><img class='typeImage' src='image/typesPokemon/"+ nomeElementoPokemon +".png'></div>";
+                        }
+                        // div.innerHTML += "<div class='col-lg-3 fundo-card'> <div class='text-center'><h1>"+data.name.toUpperCase()+"<h1></div> <div class='text-center'><img src='"+ data.sprites.front_default +"' width='130' height='130'></div> <div><div class='tiposPokemon'><span class='subtitles' style='margin-right: 10px;'>Tipo: </span>"+imagensElementosPokemon+"</div><div><span class='subtitles'>Altura: </span><span>"+data.height / 10+" m</span></div><div><span class='subtitles'>Peso: </span><span>"+data.weight / 10+" Kg</span></div></div> </div>";
+                        div.innerHTML += "<div class='col-lg-3 fundo-card' id='modal_"+data.id+"' onclick='openModal("+data.id+")'> <div class='text-center'><h1>"+data.name.toUpperCase()+"<h1></div> <div class='text-center'><img src='"+ data.sprites.front_default +"' width='130' height='130'></div><div><hr/></div> <div><div><span class='subtitles'>Id: </span>"+data.id+"<span></span></div><div class='tiposPokemon'><span class='subtitles' style='margin-right: 10px;'>Tipo: </span>"+imagensElementosPokemon+"</div><div><span class='subtitles'>Altura: </span><span>"+data.height / 10+" m</span></div><div><span class='subtitles'>Peso: </span><span>"+data.weight / 10+" Kg</span></div></div> </div>";
+                    
+                    }
+                })
+            }
+            }
+        });
+    }
+
+    function pesquisar(){
+
+        const div = document.getElementById("resultado");
+        var pesquisa = $("#campoPesquisa").val();
+        var tipoPesquisa = $("#text_search").text();
+        var divsMontadas = "";
+        let imagensElementosPokemon = "";
+
+        div.innerHTML = "";
+        if(tipoPesquisa === "ID" || tipoPesquisa === "Nome"){
+
+            $(".card-type").hide();
+            
+            $.ajax({
+                "url": "https://pokeapi.co/api/v2/pokemon/"+ pesquisa.toLowerCase() +"/",
+                "method": "GET"
+                })
+                .done(function (data) {
+                    let imagensElementosPokemon = "";
+                    for (let index = 0; index < data.types.length; index++) {
+                        let nomeElementoPokemon = data.types[index].type.name;
+                        imagensElementosPokemon += "<div><img class='typeImage' src='image/typesPokemon/"+ nomeElementoPokemon +".png'></div>";
+                    }
+                    // div.innerHTML += "<div class='col-lg-3 fundo-card'> <div class='text-center'><h1>"+data.name.toUpperCase()+"<h1></div> <div class='text-center'><img src='"+ data.sprites.front_default +"' width='130' height='130'></div> <div><div class='tiposPokemon'><span class='subtitles' style='margin-right: 10px;'>Tipo: </span>"+imagensElementosPokemon+"</div><div><span class='subtitles'>Altura: </span><span>"+data.height+"</span></div><div><span class='subtitles'>Peso: </span><span>"+data.weight+"</span></div></div> </div>";
+                    div.innerHTML += "<div class='col-lg-3 fundo-card'> <div class='text-center'><h1>"+data.name.toUpperCase()+"<h1></div> <div class='text-center'><img src='"+ data.sprites.front_default +"' width='130' height='130'></div> <div><div><span class='subtitles'>Id: </span>"+data.id+"<span></span></div><div class='tiposPokemon'><span class='subtitles' style='margin-right: 10px;'>Tipo: </span>"+imagensElementosPokemon+"</div><div><span class='subtitles'>Altura: </span><span>"+data.height / 10+" m</span></div><div><span class='subtitles'>Peso: </span><span>"+data.weight / 10+" Kg</span></div></div> </div>";
+                
+            });
+
+        }else if(tipoPesquisa === "Tipo" ){
+
+            var nomeTipo = "";
+            $.ajax({
+                "url": "https://pokeapi.co/api/v2/type/"+ pesquisa.toLowerCase() +"/",
+                "method": "GET",
+                success: function(data) {
+                    nomeTipo = data.name;
+
+                    for (let index = 0; index < data.pokemon.length; index++) {
+                        $.ajax({
+                            "url": data.pokemon[index].pokemon.url,
+                            "method": "GET",
+                            success:function(data) {
+                                let imagensElementosPokemon = "";
+                                for (let index = 0; index < data.types.length; index++) {
+                                    let nomeElementoPokemon = data.types[index].type.name;
+                                    imagensElementosPokemon += "<div><img class='typeImage' src='image/typesPokemon/"+ nomeElementoPokemon +".png'></div>";
+                                }
+                                // div.innerHTML += "<div class='col-lg-3 fundo-card'> <div class='text-center'><h1>"+data.name.toUpperCase()+"<h1></div> <div class='text-center'><img src='"+ data.sprites.front_default +"' width='130' height='130'></div> <div><div class='tiposPokemon'><span class='subtitles' style='margin-right: 10px;'>Tipo: </span>"+imagensElementosPokemon+"</div><div><span class='subtitles'>Altura: </span><span>"+data.height / 10+" m</span></div><div><span class='subtitles'>Peso: </span><span>"+data.weight / 10+" Kg</span></div></div> </div>";
+                                div.innerHTML += "<div class='col-lg-3 fundo-card'> <div class='text-center'><h1>"+data.name.toUpperCase()+"<h1></div> <div class='text-center'><img src='"+ data.sprites.front_default +"' width='130' height='130'></div> <div><div><span class='subtitles'>Id: </span>"+data.id+"<span></span></div><div class='tiposPokemon'><span class='subtitles' style='margin-right: 10px;'>Tipo: </span>"+imagensElementosPokemon+"</div><div><span class='subtitles'>Altura: </span><span>"+data.height / 10+" m</span></div><div><span class='subtitles'>Peso: </span><span>"+data.weight / 10+" Kg</span></div></div> </div>";
+                            
+                            }
+                        })
+                    }
+
+                    $(".type_specie").text("Type: ");
+                    $("#typeSpecie").text(nomeTipo.toUpperCase());
+                    $(".card-type").show();
+
+                }
+            })
+        }
+        else{
+
+            var nomeTipo = "";
+            $.ajax({
+                "url": "https://pokeapi.co/api/v2/pokemon-species/"+ pesquisa.toLowerCase() +"/",
+                "method": "GET",
+                success: function(data) {
+                    nomeTipo = data.name;
+
+                    for (let index = 0; index < data.varieties.length; index++) {
+                        $.ajax({
+                            "url": data.varieties[index].pokemon.url,
+                            "method": "GET",
+                            success:function(data) {
+                                let imagensElementosPokemon = "";
+                                for (let index = 0; index < data.types.length; index++) {
+                                    let nomeElementoPokemon = data.types[index].type.name;
+                                    imagensElementosPokemon += "<div><img class='typeImage' src='image/typesPokemon/"+ nomeElementoPokemon +".png'></div>";
+                                }
+                                div.innerHTML += "<div class='col-lg-3 fundo-card'> <div class='text-center'><h1>"+data.name.toUpperCase()+"<h1></div> <div class='text-center'><img src='"+ data.sprites.front_default +"' width='130' height='130'></div> <div><div><span class='subtitles'>Id: </span>"+data.id+"<span></span></div><div class='tiposPokemon'><span class='subtitles' style='margin-right: 10px;'>Tipo: </span>"+imagensElementosPokemon+"</div><div><span class='subtitles'>Altura: </span><span>"+data.height / 10+" m</span></div><div><span class='subtitles'>Peso: </span><span>"+data.weight / 10+" Kg</span></div></div> </div>";
+                            }
+                        })
+                    }
+
+                    $(".type_specie").text("Specie: ");
+                    $("#typeSpecie").text(nomeTipo.toUpperCase());
+                    $(".card-type").show();
+
+                }
+            })
+        }
+    }
+    
+    function openModal(id){
+        $.ajax({
+        "url": "https://pokeapi.co/api/v2/pokemon/"+ id +"/",
+        "method": "GET"
+        })
+        .done(function (data) {
+            let imagensElementosPokemon = "";
+            for (let index = 0; index < data.types.length; index++) {
+                let nomeElementoPokemon = data.types[index].type.name;
+                imagensElementosPokemon += "<div><img class='typeImage' src='image/typesPokemon/"+ nomeElementoPokemon +".png'></div>";
+            }
+            console.log(data);
+            // div.innerHTML += "<div class='col-lg-3 fundo-card'> <div class='text-center'><h1>"+data.name.toUpperCase()+"<h1></div> <div class='text-center'><img src='"+ data.sprites.front_default +"' width='130' height='130'></div> <div><div><span class='subtitles'>Id: </span>"+data.id+"<span></span></div><div class='tiposPokemon'><span class='subtitles' style='margin-right: 10px;'>Tipo: </span>"+imagensElementosPokemon+"</div><div><span class='subtitles'>Altura: </span><span>"+data.height / 10+" m</span></div><div><span class='subtitles'>Peso: </span><span>"+data.weight / 10+" Kg</span></div></div> </div>";
+            $("#modalLabel").text(data.name.toUpperCase());
+            $("#ModalPokemon").modal('show');   
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+    // Comando 1
+    var data = {
+        titulo: ['teste vinicio'],
+        titulo2: 'deu bom'
+    };
+    // Comando 2
+    new Vue({
+        el: '#app',
+        data: data
+    });
+
+</script>
